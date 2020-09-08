@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+    <div class="container" id="fullcontainer">
+        <div class="row" id="table-row">
+            <table class="table-hover table-bordered" id="reimb_table">
+                <thead>
+                    <tr>
+                        <th>Reimbursement ID</th>
+                        <th>Reimbursement Amount</th>
+                        <th>Date/Time Submitted</th>
+                        <th>Date/Time Resolved</th>
+                        <th>Reimbursement Description</th>
+                        <th>Reimbursement Author ID</th>
+                        <th>Reimbursement Resolver ID</th>
+                        <th>Reimbursement Status ID</th>
+                        <th>Reimbursement Type ID</th>
+                    </tr>
+                </thead>
+                <tbody id="reimb_body">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row" id="status table-row">
+            <div class="col">
+                <div class="form-group">
+                    <p> Pending [1], Approved [2], Denied [3] </p>
+                    <label for="status_change">Number According to Desired Status</label>
+                    <input type="number" id="status_change" />
+                </div>
+                <button id="get_by_status" class="btn btn-info">Submit</button>
+                <table class="table-hover table-bordered" id="reimb_table_2">
+                    <thead>
+                        <tr>
+                            <th>Reimbursement ID</th>
+                            <th>Reimbursement Amount</th>
+                            <th>Date/Time Submitted</th>
+                            <th>Date/Time Resolved</th>
+                            <th>Reimbursement Description</th>
+                            <th>Reimbursement Author ID</th>
+                            <th>Reimbursement Resolver ID</th>
+                            <th>Reimbursement Status ID</th>
+                            <th>Reimbursement Type ID</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reimb_body_2"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row" id="update_status">
+            <div class="col"> 
+                <div class="form-group">
+                    <label for="id_input">ID Number of Desired Reimbursement</label>
+                    <input type="number" id="id_input"/>
+                </div>
+                <div class="form-group">
+                    <input type="radio" id="approved" name="status" value="Approved">
+                    <label for="approved">Approved [2]</label>
+                    <input type="radio" id="denied" name="status" value="Denied">
+                    <label for="denied">Denied [3]</label>
+                </div>
+                <button id="statusbtn" class="btn btn-success">Update</button>
+            </div>
+        </div>
+
+        <button id="logout_btn" class="btn btn-primary">Log Out</button>
+        
+    </div>
+    <script src="project1.js"></script>
+    <script src="Manager.js"></script>
+
+</body>
+
+</html>
