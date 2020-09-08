@@ -15,10 +15,9 @@ async function loginFunc() {
         method: 'POST',
         body: JSON.stringify(user),
         credentials: "include"
-    })
+    });
 
     if (resp.status === 200) {
-        console.log(resp)
         document.getElementById("login-row").innerText = "YOU HAVE LOGGED IN.";
         redirect();
     } else {
@@ -30,18 +29,20 @@ async function redirect() {
         method: 'GET',
         credentials: "include"
     });
-    console.log(resp.status);
+    
     if(resp.status === 200) {
-        console.log(resp);
         let data = await resp.json();
-        console.log(data);
         let userId = data.id;
-        sessionStorage.setItem("role_id", userId);
+        sessionStorage.setItem("userId", userId);
+        
+        let userRole = data.role.id;
 
-        if (userId == 1) {
+        if (userRole == 1) {
             window.location.href = "Employee.html";
-        } else if (userId == 2) {
+        } else if (userRole == 2) {
             window.location.href = "Manager.html";
         }
+    } else {
+    	document.getElementById("login-row").innerText = "Login failed!";
     }
 }
