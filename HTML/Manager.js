@@ -1,4 +1,9 @@
-let user_id = sessionStorage.getItem("user_id");
+let userId = sessionStorage.getItem("userId");
+
+document.getElementById("AllReimbsBtn").addEventListener("click", AllReimbs);
+document.getElementById("findReimbByStatusBtn").addEventListener("click", findReimbByStatus);
+document.getElementById("updateStatusBtn").addEventListener("click", updateStatus);
+document.getElementById("logoutBtn").addEventListener("click", logout);
 
 async function AllReimbs() {
     document.getElementById("reimb_body").innerText="";
@@ -8,54 +13,55 @@ async function AllReimbs() {
     });
 
     if(resp.status === 200) {
-        console.log(resp);
         let data = await resp.json();
         for (let reimbursement of data) {
+        	console.log(reimbursement);
             let row = document.createElement("tr");
 
             let cell1 = document.createElement("td");
-            cell1.innerHTML = reimbursement.reimb_id;
+            cell1.innerHTML = reimbursement.id;
             row.appendChild(cell1);
 
             let cell2 = document.createElement("td");
-            cell2.innerHTML = reimbursement.reimb_id;
+            cell2.innerHTML = reimbursement.amount;
             row.appendChild(cell2);
 
             let cell3 = document.createElement("td");
-            cell3.innerHTML = reimbursement.reimb_id;
+            let timeSubmit = new Date(reimbursement.submitted);
+            cell3.innerHTML = timeSubmit.toLocaleDateString();;
             row.appendChild(cell3);
 
             let cell4 = document.createElement("td");
-            if (reimbursement.reimb_resolved != null) {
-                let time_resolved = new Date(reimbursement.reimb_resolved);
-                cell4.innerHTML = time_resolved.toLocaleDateString();
+            if (reimbursement.resolved != null) {
+                let resolvedTime = new Date(reimbursement.resolved);
+                cell4.innerHTML = resolvedTime.toLocaleDateString();
                 row.appendChild(cell4);
             } else {
                 row.appendChild(cell4);
             }
 
             let cell5 = document.createElement("td");
-            cell5.innerHTML = reimbursement.reimb_description;
+            cell5.innerHTML = reimbursement.description;
             row.appendChild(cell5);
 
             let cell6 = document.createElement("td");
-            cell6.innerHTML = reimbursement.reimb_author;
+            cell6.innerHTML = reimbursement.author.id;
             row.appendChild(cell6);
             
             let cell7 = document.createElement("td");
-            if (reimbursement.reimb_resolver != null) {
-                cell7.innerHTML = reimbursement.reimb_resolver;
+            if (reimbursement.resolver != null) {
+                cell7.innerHTML = reimbursement.resolver.id;
                 row.appendChild(cell7);
             } else {
                 row.appendChild(cell7);
             }
 
             let cell8 = document.createElement("td");
-            cell8.innerHTML = reimbursement.reimb_status_id;
+            cell8.innerHTML = reimbursement.statusId.id;
             row.appendChild(cell8);
 
             let cell9 = document.createElement("td");
-            cell9.innerHTML = reimbursement.reimb_type_id;
+            cell9.innerHTML = reimbursement.typeId.id;
             row.appendChild(cell9);
             document.getElementById("reimb_body").appendChild(row);
         }
@@ -64,91 +70,98 @@ async function AllReimbs() {
 
 async function findReimbByStatus() {
     document.getElementById("reimb_body_2").innerText = "";
-    let status_id = document.getElementById("id_input");
-    let status = status_id.value;
+    let status = document.getElementById("statusIdInput");
+    let idNumber = status.value;
 
-    let resp = await fetch(url + "reimbursments_by_status/" + status, {
+    let resp = await fetch(url + "reimbursmentsByStatus/" + idNumber, {
         credentials: "include"
     });
 
     if(resp.status === 200) {
-        console.log(resp);
         let data = await resp.json();
         for (let reimbursement of data) {
+        	console.log(reimbursement);
             let row = document.createElement("tr");
 
             let cell1 = document.createElement("td");
-            cell1.innerHTML = reimbursement.reimb_id;
+            cell1.innerHTML = reimbursement.id;
             row.appendChild(cell1);
 
             let cell2 = document.createElement("td");
-            cell2.innerHTML = reimbursement.reimb_id;
+            cell2.innerHTML = reimbursement.amount;
             row.appendChild(cell2);
 
             let cell3 = document.createElement("td");
-            cell3.innerHTML = reimbursement.reimb_id;
+            let timeSubmit = new Date(reimbursement.submitted);
+            cell3.innerHTML = timeSubmit.toLocaleDateString();;
             row.appendChild(cell3);
 
             let cell4 = document.createElement("td");
-            if (reimbursement.reimb_resolved != null) {
-                let time_resolved = new Date(reimbursement.reimb_resolved);
-                cell4.innerHTML = time_resolved.toLocaleDateString();
+            if (reimbursement.resolved != null) {
+                let resolvedTime = new Date(reimbursement.resolved);
+                cell4.innerHTML = resolvedTime.toLocaleDateString();
                 row.appendChild(cell4);
             } else {
                 row.appendChild(cell4);
             }
 
             let cell5 = document.createElement("td");
-            cell5.innerHTML = reimbursement.reimb_description;
+            cell5.innerHTML = reimbursement.description;
             row.appendChild(cell5);
 
             let cell6 = document.createElement("td");
-            cell6.innerHTML = reimbursement.reimb_author;
+            cell6.innerHTML = reimbursement.author.id;
             row.appendChild(cell6);
             
             let cell7 = document.createElement("td");
-            if (reimbursement.reimb_resolver != null) {
-                cell7.innerHTML = reimbursement.reimb_resolver;
+            if (reimbursement.resolver != null) {
+                cell7.innerHTML = reimbursement.resolver.id;
                 row.appendChild(cell7);
             } else {
                 row.appendChild(cell7);
             }
 
             let cell8 = document.createElement("td");
-            cell8.innerHTML = reimbursement.reimb_status_id;
+            cell8.innerHTML = reimbursement.statusId.id;
             row.appendChild(cell8);
 
             let cell9 = document.createElement("td");
-            cell9.innerHTML = reimbursement.reimb_type_id;
+            cell9.innerHTML = reimbursement.typeId.id;
             row.appendChild(cell9);
-            document.getElementById("reimb_body").appendChild(row);
+            document.getElementById("reimb_body_2").appendChild(row);
         }
     }
 }
 
 async function updateStatus() {
-    let reimb_id = document.getElementById("reimb_id");
-    let reimb_value = reimb_id.value;
+    let reimbId = document.getElementById("reimbIdInput");
+    let idNumber = reimbId.value;
 
-    const status = document.querySelectorAll('input[name="status"]');
+    const rStatus = document.querySelectorAll('input[name="status"]');
     let chooseStatus;
-    for (const reimb_status of status) {
-        if (reimb_status.checked) {
-            chooseStatus = reimb_status.value;
+    for (const status of rStatus) {
+        if (status.checked) {
+            chooseStatus = status.value;
             break;
         }
     }
 
-    let rStatus = {
-        reimb_id: reimb_value,
-        reimb_author: user_id,
-        reimb_status: chooseStatus
+    let reimbStatus = {
+        reimbId: idNumber,
+        reimbAuthor: userId,
+        reimbStatus: chooseStatus
     }
+    
+    let resp = await fetch(url + "updateStatus", {
+    	method: 'POST';
+    	body:JSON.stringify(reimbStatus),
+    	credentials: "include"
+    });
 
     if (resp.status === 202) {
-        document.getElementById("update_success").innerHTML = "Reimbursement updated";
+        document.getElementById("updateSuccess").innerHTML = "Reimbursement updated";
     } else {
-        document.getElementById("update_success").innerHTML = "Reimbursement failed to update";
+        document.getElementById("updateSuccess").innerHTML = "Reimbursement failed to update";
     }
 }
 
@@ -159,8 +172,7 @@ async function logout() {
     });
 
     if (resp.status == 200) {
-        console.log("logout");
-        window.location.href = "project1.html";
+        window.location.href = "index.html";
     }
 }
 

@@ -82,7 +82,7 @@ async function addReimb() {
     }
 
     let reimbursement = {
-        reimbAmountt: amount,
+        reimbAmount: amount,
         reimbDescription: description,
         reimbAuthor: userId,
         type: choice
